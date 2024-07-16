@@ -32,7 +32,7 @@ export default function ContactForm() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 shadow-2xl max-w-screen-sm rounded-lg flex flex-col text-center"
+        className="w-1/3 bg-white p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
       >
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
@@ -69,9 +69,9 @@ export default function ContactForm() {
             <button
               type="button"
               onClick={handleDeleteClick}
-              className="absolute right-1 mt-5 transform -translate-y-1/2 bg-red-500 hover:bg-red-600 text-white py-1 px-2 rounded"
+              className="absolute right-1 mt-5 transform -translate-y-1/2 rounded"
             >
-              X
+              ⏪
             </button>
           )}
         </div>

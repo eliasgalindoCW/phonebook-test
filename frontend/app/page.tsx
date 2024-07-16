@@ -1,15 +1,17 @@
-import Book from "@/components/Book";
-import Form from "@/components/Form";
-import History from "@/components/History";
+import Book from "@/app/components/Book";
+import Form from "@/app/components/Form";
+import History from "@/app/components/History";
 
 export default function Home() {
   return (
     <>
-      <section className="m-1 p-1">
-        <Form />
-        <Book />
+      <main className="container mx-auto p-4">
+        <div className="flex justify-between gap-4 mb-4">
+          <Form />
+          <Book />
+        </div>
         <History />
-      </section>
+      </main>
     </>
   );
 }

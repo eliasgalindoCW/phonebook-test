@@ -7,17 +7,7 @@ export default function Header() {
           <ul className="flex space-x-4">
             <li>
               <a href="/" className="hover:text-gray-300">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="/add" className="hover:text-gray-300">
-                Add Contact
-              </a>
-            </li>
-            <li>
-              <a href="/about" className="hover:text-gray-300">
-                About
+                Logout
               </a>
             </li>
           </ul>
