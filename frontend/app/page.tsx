@@ -5,13 +5,13 @@ import History from "@/app/components/History";
 export default function Home() {
   return (
     <>
-      <main className="container mx-auto p-4">
+      <section className="container mx-auto p-4">
         <div className="flex justify-between gap-4 mb-4">
           <Form />
           <Book />
         </div>
         <History />
-      </main>
+      </section>
     </>
   );
 }
