@@ -1,41 +1,24 @@
 "use client";
 
-import { useState } from "react";
-
-const contacts = [
-  { id: 1, name: "John Doe", phoneNumber: "+55(11)12345-6789", notes: "" },
-  {
-    id: 2,
-    name: "Jane Smith",
-    phoneNumber: "+55(21)98765-4321",
-    notes: "",
-  },
-  {
-    id: 3,
-    name: "Alice Johnson",
-    phoneNumber: "+55(31)45678-1234",
-    notes: "",
-  },
-  { id: 4, name: "Bob Brown", phoneNumber: "+55(41)87654-3210", notes: "" },
-  {
-    id: 5,
-    name: "Charlie Davis",
-    phoneNumber: "+55(51)13579-2468",
-    notes: "",
-  },
-  {
-    id: 6,
-    name: "Diana Green",
-    phoneNumber: "+55(61)97531-8642",
-    notes: "",
-  },
-];
+import { useEffect, useState } from "react";
+import getPhones from "../utils/getPhones";
+import Contacts from "../interfaces/Contacts";
 
 const Book = () => {
-  const [selectedContact, setSelectedContact] = useState(null);
+  const [selectedContact, setSelectedContact] = useState<Contacts | any>();
   const [note, setNote] = useState("");
-  const [updatedContacts, setUpdatedContacts] = useState(contacts);
+  const [updatedContacts, setUpdatedContacts] = useState<Contacts[]>([]);
   const [open, setOpen] = useState(false);
+  
+  useEffect(() => {
+    const getContacts = async () => {
+      const result = await getPhones();
+      setUpdatedContacts(result);
+    }
+
+    getContacts();
+  }, [])
+  
 
   const handleAddNote = (contactId: number) => {
     const newContacts = updatedContacts.map((contact: any) => {
@@ -52,7 +35,7 @@ const Book = () => {
   const lastFiveContacts = updatedContacts.slice(-5);
 
   return (
-    <div className="w-2/3 p-4 bg-white shadow-2xl rounded-lg flex flex-col">
+    <div className="w-3/4 p-4 bg-white shadow-2xl rounded-lg flex flex-col">
       <h2 className="text-2xl font-bold mb-4">Last 5 Contacts</h2>
       <ul className="mb-6">
         {lastFiveContacts.map((contact) => (
@@ -62,7 +45,7 @@ const Book = () => {
                 <p>
                   <b>{contact.name}</b>
                 </p>
-                <p>{contact.phoneNumber}</p>
+                <p>{contact.phone_number}</p>
               </div>
               <button
                 onClick={() => setSelectedContact(contact.id)}
@@ -109,7 +92,7 @@ const Book = () => {
                   <p>
                     <b>{contact.name}</b>
                   </p>
-                  <p>{contact.phoneNumber}</p>
+                  <p>{contact.phone_number}</p>
                 </div>
                 <button
                   onClick={() => setSelectedContact(contact.id)}

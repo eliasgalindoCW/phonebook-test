@@ -32,7 +32,7 @@ export default function ContactForm() {
     <>
       <form
         onSubmit={handleSubmit}
-        className="w-1/3 bg-white p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
+        className="w-1/4 bg-white p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
       >
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
