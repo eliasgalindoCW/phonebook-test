@@ -1,19 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import getPhones from "../utils/getPhones";
+import getContact from "../utils/getContacts";
 import Contacts from "../interfaces/Contacts";
+import Loading from "./Loading";
 
 const Book = () => {
   const [selectedContact, setSelectedContact] = useState<Contacts | any>();
-  const [note, setNote] = useState("");
   const [updatedContacts, setUpdatedContacts] = useState<Contacts[]>([]);
-  const [open, setOpen] = useState(false);
+  const [note, setNote] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getContacts = async () => {
-      const result = await getPhones();
+      setIsLoading(false);
+      const result = await getContact();
       setUpdatedContacts(result);
+      setIsLoading(true);
     };
 
     getContacts();
@@ -35,12 +39,7 @@ const Book = () => {
 
   return (
     <div className="w-3/4 p-4 bg-white shadow-2xl rounded-lg flex flex-col">
-      {!updatedContacts.length ? (
-        <h2 className="text-2xl font-bold mb-4 text-center m-2">
-          No Contactcs Where Found - Please Add One
-        </h2>
-      ) : (
-        <>
+      {!isLoading && <Loading />}
           <h2 className="text-2xl font-bold mb-4 text-center">
             Last Contacts
           </h2>
@@ -132,8 +131,6 @@ const Book = () => {
               ))}
             </ul>
           )}
-        </>
-      )}
     </div>
   );
 };

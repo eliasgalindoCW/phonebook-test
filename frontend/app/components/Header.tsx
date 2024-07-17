@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Header() {
   return (
-    <header className="bg-lime-400 text-white p-4">
+    <header className="bg-purple-900 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-xl font-bold flex">
           Phonebook App

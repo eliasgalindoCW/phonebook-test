@@ -2,17 +2,42 @@
 
 import { useState } from "react";
 import Dial from "./Dial";
+import createContacts from "../utils/createContact";
+import ContactPost from "../interfaces/ContactsPost";
 
 export default function ContactForm() {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const maxLength = 11;
 
+  const transformRequestBody = (data: ContactPost) => {
+    return {
+      phone_number: {
+        name: data.name,
+        phone_number: data.phone_number,
+        notes: data.notes || ""
+      }
+    };
+  };
+  
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("Adding Contact:", { name, phoneNumber });
     setName("");
     setPhoneNumber("");
+
+    
+    try {
+      const requestBody = transformRequestBody({ name, phone_number: phoneNumber });
+
+      const res = createContacts(requestBody as any)
+      console.log("🚀 ~ handleSubmit ~ res:", res)
+
+      return res;
+    } catch (error) {
+      console.error(error);
+    }
+
   };
 
   const handleNumberClick = (number: string) => {
