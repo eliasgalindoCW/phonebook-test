@@ -42,7 +42,7 @@ const Book = () => {
       ) : (
         <>
           <h2 className="text-2xl font-bold mb-4 text-center">
-            Last 5 Contacts
+            Last Contacts
           </h2>
           <ul className="mb-6">
             {lastFiveContacts.map((contact) => (

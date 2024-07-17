@@ -8,7 +8,7 @@ const Dial = ({ onNumberClick }: any) => {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-1">
       {buttons.map((button) => (
         <button
           key={button}
