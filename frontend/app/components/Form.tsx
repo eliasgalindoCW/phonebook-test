@@ -4,17 +4,33 @@ import { useState } from "react";
 import Dial from "./Dial";
 import createContacts from "../utils/createContact";
 import ContactPost from "../interfaces/ContactsPost";
+import Loading from "./Loading";
 
-export default function ContactForm() {
+interface FormProps {
+  onAddContact: () => void;
+}
+
+export default function ContactForm({onAddContact}: FormProps) {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const maxLength = 11;
+
+  const formatPhoneNumber = (phone: string) => {
+    const cleaned = ('' + phone).replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
+    if (match) {
+      return `+55(${match[1]})${match[2]}-${match[3]}`;
+    }
+    return phone;
+  };
 
   const transformRequestBody = (data: ContactPost) => {
     return {
       phone_number: {
         name: data.name,
-        phone_number: data.phone_number,
+        phone_number: formatPhoneNumber(data.phone_number),
         notes: data.notes || ""
       }
     };
@@ -22,17 +38,17 @@ export default function ContactForm() {
   
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    setName("");
-    setPhoneNumber("");
-
-    
     try {
+      e.preventDefault();
+      setIsLoading(true);
       const requestBody = transformRequestBody({ name, phone_number: phoneNumber });
-
+      
       const res = createContacts(requestBody as any)
-      console.log("🚀 ~ handleSubmit ~ res:", res)
-
+      
+      onAddContact();
+      setName("");
+      setPhoneNumber("");
+      setIsLoading(false);
       return res;
     } catch (error) {
       console.error(error);
@@ -55,6 +71,7 @@ export default function ContactForm() {
 
   return (
     <>
+    {isLoading && <Loading />}
       <form
         onSubmit={handleSubmit}
         className="w-1/4 bg-white p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
@@ -83,7 +100,7 @@ export default function ContactForm() {
           <input
             onChange={(e) => setPhoneNumber(e.target.value)}
             value={phoneNumber}
-            type="text"
+            type="tel"
             id="phoneNumber"
             maxLength={maxLength}
             className="w-full px-3 py-2 border rounded text-center"

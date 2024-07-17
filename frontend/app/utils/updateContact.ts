@@ -1,10 +1,10 @@
-import ContactPost from "../interfaces/ContactsPost";
+import ContactsUpdate from "../interfaces/ContactsUpdate";
 
-const createContacts = async (body: ContactPost): Promise<void> => {
-    const url = "http://localhost:3000/phone_numbers";
+const updateContacts = async (id: number, body: ContactsUpdate): Promise<void> => {
+    const url = `http://localhost:3000/phone_numbers/${id}`;
 
     const res = await fetch(url, {
-        method: "POST",
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json"
         },
@@ -18,4 +18,4 @@ const createContacts = async (body: ContactPost): Promise<void> => {
     return await res.json();
 }
 
-export default createContacts;
+export default updateContacts;
