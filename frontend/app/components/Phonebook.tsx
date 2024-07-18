@@ -5,13 +5,13 @@ import Contacts from "../interfaces/Contacts";
 import updateContacts from "../utils/updateContact";
 import formatPhoneNumber from "../utils/formatPhoneNumber";
 
-interface HistoryProps {
+interface PhonebookProps {
   contacts: Contacts[];
   onDelete: (id: number) => void;
   onUpdate: () => void; 
 }
 
-const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
+const Phonebook = ({ contacts, onDelete, onUpdate }: PhonebookProps) => {
   const [editContact, setEditContact] = useState<Contacts | null>(null);
   const [editName, setEditName] = useState<string>("");
   const [editPhoneNumber, setEditPhoneNumber] = useState<string>("");
@@ -24,7 +24,9 @@ const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
       contacts.filter(
         (contact) =>
           contact.name.toLowerCase().includes(filter.toLowerCase()) ||
-          contact.phone_number.includes(filter)
+          contact.phone_number.includes(filter) ||
+          contact.notes?.toLowerCase().includes(filter) ||
+          contact.id?.toString().includes(filter)
       )
     );
   }, [filter, contacts]);
@@ -54,14 +56,14 @@ const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
   };
 
   return (
-    <div className="p-6 shadow-2xl bg-white rounded-lg w-full">
-      <h2 className="text-2xl font-bold mb-4">Contact History</h2>
+    <div className="p-6 shadow-2xl bg-yellow-50 rounded-lg w-full">
+      <h2 className="text-2xl font-bold mb-4">📒 Phonebook</h2>
       <input
         type="text"
         placeholder="Filter contacts..."
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
-        className="mb-4 p-2 border rounded w-full"
+        className="mb-4 p-2 border bg-yellow-50 rounded w-full"
       />
       <table className="min-w-full">
         <thead>
@@ -77,7 +79,7 @@ const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
           {filteredContacts.map((contact) => (
             <tr
               key={contact.id}
-              className="text-center bg-yellow-50 "
+              className="text-center"
             >
               <td className="border px-4 py-2"><p>#{contact.id}</p></td>
               <td className="border px-4 py-2 font-bold">
@@ -114,7 +116,7 @@ const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
                   />
                 ) : (
                   <>
-                  {contact.notes && <p>📔{contact.notes}</p>}
+                  {contact.notes && <p>📝{contact.notes}</p>}
                   </>
                 )}
               </td>
@@ -159,4 +161,4 @@ const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
   );
 };
 
-export default History;
+export default Phonebook;

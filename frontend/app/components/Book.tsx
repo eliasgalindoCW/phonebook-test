@@ -28,7 +28,7 @@ const Book = ({ contacts }: BookProps) => {
               </div>
             </div>
             {contact.notes && (
-              <p className="mt-2 text-gray-600">📔{contact.notes}</p>
+              <p className="mt-2 text-gray-600">📝{contact.notes}</p>
             )}
           </li>
         ))}

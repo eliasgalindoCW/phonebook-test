@@ -66,7 +66,7 @@ export default function ContactForm({onAddContact}: FormProps) {
     {isLoading && <Loading />}
       <form
         onSubmit={handleSubmit}
-        className="w-1/4 bg-white p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
+        className="w-1/4 bg-yellow-50 p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
       >
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
@@ -105,7 +105,7 @@ export default function ContactForm({onAddContact}: FormProps) {
               onClick={handleDeleteClick}
               className="absolute right-1 mt-5 transform -translate-y-1/2 rounded"
             >
-              ⏪
+              ❌
             </button>
           )}
         </div>
