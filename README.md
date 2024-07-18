@@ -48,13 +48,13 @@ This is a phonebook application built as a single-page application (SPA) using N
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/phonebook-application.git
+   git clone https://github.com/eliasgalindoCW/phonebook-test.git
    cd phonebook-application
    ``` 
 
 2. **Setup the backend:**
 
-*Install Ruby dependencies:*
+**Install Ruby dependencies:**
 
 ```bash
 Copiar código
@@ -62,7 +62,7 @@ cd backend
 bundle install
 ```
 
-*Setup the database:*
+**Setup the database:**
 
 ```bash
 Copiar código
@@ -70,7 +70,7 @@ rails db:create
 rails db:migrate
 ```
 
-*Start the Rails server:*
+**Start the Rails server:**
 
 ```bash
 Copiar código
@@ -79,7 +79,7 @@ rails server
 
 3. **Setup the frontend:**
 
-*Install Node.js dependencies:*
+**Install Node.js dependencies:**
 
 ```bash
 Copiar código
@@ -89,7 +89,7 @@ yarn install
 npm install
 ```
 
-*Start the Next.js development server:*
+**Start the Next.js development server:**
 
 ```bash
 Copiar código
@@ -104,19 +104,19 @@ Open your web browser and go to http://localhost:3000.
 
 ## Usage
 
-*Add Contact:*
+**Add Contact:**
 Fill in the name and phone number in the form, then click "Add Contact".
 
-*View Contacts:*
+**View Contacts:**
 The "Last Contacts" section displays the 5 most recently added contacts.
 
-*Filter Contacts:*
+**Filter Contacts:**
 Use the filter input in the "Contact History" section to search for contacts by name or phone number.
 
-*Edit Contact:*
+**Edit Contact:**
 Click the "Edit" button next to a contact, modify the details, and click "Save" to update.
 
-*Delete Contact:*
+**Delete Contact:**
 Click the "Delete" button next to a contact to remove it from the list.
 
 ### Folder Structure
