@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Book from "@/app/components/Book";
 import Form from "@/app/components/Form";
-import History from "@/app/components/History";
+import Phonebook from "@/app/components/Phonebook";
 import Loading from "@/app/components/Loading";
 import Contacts from './interfaces/Contacts';
 import getContacts from './utils/getContacts';
@@ -52,7 +52,7 @@ export default function Home() {
           <Form onAddContact={handleAddContact} />
           <Book contacts={contacts} />
         </div>
-        <History contacts={contacts} onDelete={handleDelete} onUpdate={handleUpdate} />
+        <Phonebook contacts={contacts} onDelete={handleDelete} onUpdate={handleUpdate} />
       </section>
     </>
   );

@@ -14,15 +14,6 @@ export default function Header() {
             className="ml-2"
           />
         </h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li>
-              <a href="/" className="hover:text-gray-300">
-                Logout
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
     </header>
   );
