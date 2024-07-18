@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Contacts from "../interfaces/Contacts";
 import updateContacts from "../utils/updateContact";
 import formatPhoneNumber from "../utils/formatPhoneNumber";
-
 
 interface HistoryProps {
   contacts: Contacts[];
@@ -17,6 +16,18 @@ const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
   const [editName, setEditName] = useState<string>("");
   const [editPhoneNumber, setEditPhoneNumber] = useState<string>("");
   const [editNotes, setEditNotes] = useState<string>("");
+  const [filter, setFilter] = useState<string>("");
+  const [filteredContacts, setFilteredContacts] = useState<Contacts[]>(contacts);
+
+  useEffect(() => {
+    setFilteredContacts(
+      contacts.filter(
+        (contact) =>
+          contact.name.toLowerCase().includes(filter.toLowerCase()) ||
+          contact.phone_number.includes(filter)
+      )
+    );
+  }, [filter, contacts]);
 
   const handleEdit = (contact: Contacts) => {
     setEditContact(contact);
@@ -45,6 +56,13 @@ const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
   return (
     <div className="p-6 shadow-2xl bg-white rounded-lg w-full">
       <h2 className="text-2xl font-bold mb-4">Contact History</h2>
+      <input
+        type="text"
+        placeholder="Filter contacts..."
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        className="mb-4 p-2 border rounded w-full"
+      />
       <table className="min-w-full">
         <thead>
           <tr>
@@ -56,7 +74,7 @@ const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
           </tr>
         </thead>
         <tbody>
-          {contacts.map((contact) => (
+          {filteredContacts.map((contact) => (
             <tr
               key={contact.id}
               className="text-center bg-yellow-50 "
