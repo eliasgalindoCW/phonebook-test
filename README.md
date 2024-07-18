@@ -47,10 +47,10 @@ This is a phonebook application built as a single-page application (SPA) using N
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/eliasgalindoCW/phonebook-test.git
-   cd phonebook-application
-   ``` 
+```bash
+git clone https://github.com/eliasgalindoCW/phonebook-test.git
+cd phonebook-application
+``` 
 
 2. **Setup the backend:**
 
@@ -118,25 +118,6 @@ Click the "Edit" button next to a contact, modify the details, and click "Save" 
 
 **Delete Contact:**
 Click the "Delete" button next to a contact to remove it from the list.
-
-### Folder Structure
-```bash
-Copiar código
-phonebook-application/
-  ├── backend/                 # Ruby on Rails backend
-  │   ├── app/                 # Rails application code
-  │   ├── config/              # Configuration files
-  │   ├── db/                  # Database migrations
-  │   └── ...                  # Other standard Rails folders
-  ├── frontend/                # Next.js frontend
-  │   ├── components/          # React components
-  │   ├── pages/               # Next.js pages
-  │   ├── styles/              # Tailwind CSS styles
-  │   ├── utils/               # Utility functions
-  │   └── ...                  # Other standard Next.js folders
-  ├── README.md                # Project documentation
-  └── ...                      # Other project files
-```
 
 ## Contributing
 1. Fork the repository
