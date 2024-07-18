@@ -1,13 +1,11 @@
-import Contacts from "../interfaces/Contacts";
-
-const getPhones = async (): Promise<Contacts[]> => {
-    const url = "http://localhost:3000/phone_numbers";
+const deleteContacts = async (id: number): Promise<void> => {
+    const url = `http://localhost:3000/phone_numbers/${id}`;
 
     const res = await fetch(url, {
-        method: "GET",
+        method: "DELETE",
         headers: {
             "Content-Type": "application/json"
-        }
+        },
     });
 
     if (!res.ok) {
@@ -17,4 +15,4 @@ const getPhones = async (): Promise<Contacts[]> => {
     return await res.json();
 }
 
-export default getPhones;
+export default deleteContacts;

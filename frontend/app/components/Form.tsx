@@ -2,17 +2,50 @@
 
 import { useState } from "react";
 import Dial from "./Dial";
+import createContacts from "../utils/createContact";
+import ContactPost from "../interfaces/ContactsPost";
+import Loading from "./Loading";
+import formatPhoneNumber from "../utils/formatPhoneNumber";
 
-export default function ContactForm() {
+interface FormProps {
+  onAddContact: () => void;
+}
+
+export default function ContactForm({onAddContact}: FormProps) {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const maxLength = 11;
 
+  const transformRequestBody = (data: ContactPost) => {
+    return {
+      phone_number: {
+        name: data.name,
+        phone_number: formatPhoneNumber(data.phone_number),
+        notes: data.notes || ""
+      }
+    };
+  };
+  
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    console.log("Adding Contact:", { name, phoneNumber });
-    setName("");
-    setPhoneNumber("");
+    try {
+      e.preventDefault();
+      setIsLoading(true);
+      const requestBody = transformRequestBody({ name, phone_number: phoneNumber });
+      
+      const res = createContacts(requestBody as any)
+      
+      onAddContact();
+      setName("");
+      setPhoneNumber("");
+      setIsLoading(false);
+      return res;
+    } catch (error) {
+      console.error(error);
+    }
+
   };
 
   const handleNumberClick = (number: string) => {
@@ -30,6 +63,7 @@ export default function ContactForm() {
 
   return (
     <>
+    {isLoading && <Loading />}
       <form
         onSubmit={handleSubmit}
         className="w-1/4 bg-white p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
@@ -58,7 +92,7 @@ export default function ContactForm() {
           <input
             onChange={(e) => setPhoneNumber(e.target.value)}
             value={phoneNumber}
-            type="text"
+            type="tel"
             id="phoneNumber"
             maxLength={maxLength}
             className="w-full px-3 py-2 border rounded text-center"

@@ -3,7 +3,7 @@ class PhoneNumbersController < ApplicationController
   
     # GET /phone_numbers
     def index
-      @phone_numbers = PhoneNumber.all
+      @phone_numbers = PhoneNumber.order(created_at: :asc)
       render json: @phone_numbers
     end
 
@@ -34,7 +34,14 @@ class PhoneNumbersController < ApplicationController
   
     # DELETE /phone_numbers/:id
     def destroy
-      @phone_number.destroy
+      @phone_number = PhoneNumber.find(params[:id])
+      if @phone_number.destroy
+        render json: { message: 'Phone number deleted successfully.' }, status: :ok
+      else
+        render json: { error: 'Failed to delete phone number.' }, status: :unprocessable_entity
+      end
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'Phone number not found.' }, status: :not_found
     end
   
     private

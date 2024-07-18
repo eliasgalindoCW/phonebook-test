@@ -1,37 +1,51 @@
 "use client";
 
 import { useState } from "react";
+import Contacts from "../interfaces/Contacts";
+import updateContacts from "../utils/updateContact";
+import formatPhoneNumber from "../utils/formatPhoneNumber";
 
-const initialContacts = [
-  { id: 1, name: "John Doe", phoneNumber: "+55(11)12345-6789", notes: "" },
-  { id: 2, name: "Jane Smith", phoneNumber: "+55(21)98765-4321", notes: "" },
-  {
-    id: 3,
-    name: "Alice Johnson",
-    phoneNumber: "+55(31)45678-1234",
-    notes: "",
-  },
-  { id: 4, name: "Bob Brown", phoneNumber: "+55(41)87654-3210", notes: "" },
-  {
-    id: 5,
-    name: "Charlie Davis",
-    phoneNumber: "+55(51)13579-2468",
-    notes: "",
-  },
-  { id: 6, name: "Diana Green", phoneNumber: "+55(61)97531-8642", notes: "" },
-];
 
-const History = () => {
-  const [contacts, setContacts] = useState(initialContacts);
+interface HistoryProps {
+  contacts: Contacts[];
+  onDelete: (id: number) => void;
+  onUpdate: () => void; 
+}
 
-  const handleDelete = (id: number) => {
-    setContacts(contacts.filter((contact) => contact.id !== id));
+const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
+  const [editContact, setEditContact] = useState<Contacts | null>(null);
+  const [editName, setEditName] = useState<string>("");
+  const [editPhoneNumber, setEditPhoneNumber] = useState<string>("");
+  const [editNotes, setEditNotes] = useState<string>("");
+
+  const handleEdit = (contact: Contacts) => {
+    setEditContact(contact);
+    setEditName(contact.name);
+    setEditPhoneNumber(contact.phone_number);
+    setEditNotes(contact.notes || "");
+  };
+
+  const handleUpdateContact = async (contactId: number) => {
+    try {
+      const updatedContact = {
+        name: editName,
+        phone_number: formatPhoneNumber(editPhoneNumber),
+        notes: editNotes,
+      };
+
+      await updateContacts(contactId, updatedContact);
+
+      setEditContact(null);
+      onUpdate();
+    } catch (error) {
+      console.error("Failed to update contact:", error);
+    }
   };
 
   return (
-    <div className="p-6 bg-white shadow-2xl rounded-lg w-full">
+    <div className="p-6 shadow-2xl bg-white rounded-lg w-full">
       <h2 className="text-2xl font-bold mb-4">Contact History</h2>
-      <table className="min-w-full bg-white">
+      <table className="min-w-full">
         <thead>
           <tr>
             <th className="py-2">ID</th>
@@ -45,19 +59,79 @@ const History = () => {
           {contacts.map((contact) => (
             <tr
               key={contact.id}
-              className="text-center odd:bg-slate-400 odd:text-white"
+              className="text-center bg-yellow-50 "
             >
-              <td className="border px-4 py-2">{contact.id}</td>
-              <td className="border px-4 py-2 font-bold">{contact.name}</td>
-              <td className="border px-4 py-2">{contact.phoneNumber}</td>
-              <td className="border px-4 py-2">{contact.notes}</td>
+              <td className="border px-4 py-2"><p>#{contact.id}</p></td>
+              <td className="border px-4 py-2 font-bold">
+                {editContact?.id === contact.id ? (
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    className="border px-2 py-1"
+                  />
+                ) : (
+                  contact.name
+                )}
+              </td>
               <td className="border px-4 py-2">
-                <button
-                  onClick={() => handleDelete(contact.id)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                >
-                  Delete
-                </button>
+                {editContact?.id === contact.id ? (
+                  <input
+                    type="text"
+                    value={editPhoneNumber}
+                    onChange={(e) => setEditPhoneNumber(e.target.value)}
+                    className="border px-2 py-1"
+                  />
+                ) : (
+                  <p>📞{contact.phone_number}</p>
+                )}
+              </td>
+              <td className="border px-4 py-2">
+                {editContact?.id === contact.id ? (
+                  <input
+                    type="text"
+                    value={editNotes}
+                    onChange={(e) => setEditNotes(e.target.value)}
+                    className="border px-2 py-1"
+                  />
+                ) : (
+                  <>
+                  {contact.notes && <p>📔{contact.notes}</p>}
+                  </>
+                )}
+              </td>
+              <td className="border px-4 py-2">
+                {editContact?.id === contact.id ? (
+                  <>
+                    <button
+                      onClick={() => handleUpdateContact(contact.id)}
+                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-1"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setEditContact(null)}
+                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleEdit(contact)}
+                      className="bg-yellow-400 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-1"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => onDelete(contact.id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

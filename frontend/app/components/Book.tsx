@@ -1,139 +1,38 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import getPhones from "../utils/getPhones";
 import Contacts from "../interfaces/Contacts";
 
-const Book = () => {
-  const [selectedContact, setSelectedContact] = useState<Contacts | any>();
-  const [note, setNote] = useState("");
-  const [updatedContacts, setUpdatedContacts] = useState<Contacts[]>([]);
-  const [open, setOpen] = useState(false);
+interface BookProps {
+  contacts: Contacts[];
+}
 
-  useEffect(() => {
-    const getContacts = async () => {
-      const result = await getPhones();
-      setUpdatedContacts(result);
-    };
+const Book = ({ contacts }: BookProps) => {
+  const sortedContacts = contacts.slice().sort((a, b) => {
+    return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+  });
 
-    getContacts();
-  }, []);
-
-  const handleAddNote = (contactId: number) => {
-    const newContacts = updatedContacts.map((contact: any) => {
-      if (contact.id === contactId) {
-        return { ...contact, notes: note };
-      }
-      return contact;
-    });
-    setUpdatedContacts(newContacts);
-    setSelectedContact(null);
-    setNote("");
-  };
-
-  const lastFiveContacts = updatedContacts.slice(-5);
+  const lastFiveContacts = sortedContacts.slice(0, 5);
 
   return (
-    <div className="w-3/4 p-4 bg-white shadow-2xl rounded-lg flex flex-col">
-      {!updatedContacts.length ? (
-        <h2 className="text-2xl font-bold mb-4 text-center m-2">
-          No Contactcs Where Found - Please Add One
-        </h2>
-      ) : (
-        <>
-          <h2 className="text-2xl font-bold mb-4 text-center">
-            Last Contacts
-          </h2>
-          <ul className="mb-6">
-            {lastFiveContacts.map((contact) => (
-              <li key={contact.id} className="border-b py-2">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <p>
-                      <b>{contact.name}</b>
-                    </p>
-                    <p>{contact.phone_number}</p>
-                  </div>
-                  <button
-                    onClick={() => setSelectedContact(contact.id)}
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                  >
-                    Add Note
-                  </button>
-                </div>
-                {selectedContact === contact.id && (
-                  <div className="mt-2">
-                    <input
-                      type="text"
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      className="w-full px-3 py-2 border rounded mb-2"
-                      placeholder="Enter note"
-                    />
-                    <button
-                      onClick={() => handleAddNote(contact.id)}
-                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
-                    >
-                      Save Note
-                    </button>
-                  </div>
-                )}
-                {contact.notes && (
-                  <p className="mt-2 text-gray-600">{contact.notes}</p>
-                )}
-              </li>
-            ))}
-          </ul>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-1 rounded text-center"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? "Hide All Contacts" : "Show All Contacts"}
-          </button>
-          {open && (
-            <ul>
-              {updatedContacts.map((contact) => (
-                <li key={contact.id} className="border-b py-2">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p>
-                        <b>{contact.name}</b>
-                      </p>
-                      <p>{contact.phone_number}</p>
-                    </div>
-                    <button
-                      onClick={() => setSelectedContact(contact.id)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                    >
-                      Add Note
-                    </button>
-                  </div>
-                  {selectedContact === contact.id && (
-                    <div className="mt-2">
-                      <input
-                        type="text"
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                        className="w-full px-3 py-2 border rounded mb-2"
-                        placeholder="Enter note"
-                      />
-                      <button
-                        onClick={() => handleAddNote(contact.id)}
-                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
-                      >
-                        Save Note
-                      </button>
-                    </div>
-                  )}
-                  {contact.notes && (
-                    <p className="mt-2 text-gray-600">{contact.notes}</p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
-        </>
-      )}
+    <div className="w-1/2 px-6 py-4 bg-yellow-50 shadow-2xl rounded-lg flex flex-col">
+      <h2 className="text-2xl font-bold mb-4 text-center">Last 5 Contacts Added</h2>
+      <ul className="mb-6">
+        {lastFiveContacts.map((contact) => (
+          <li key={contact.id} className="border-b py-2">
+            <div className="flex justify-between items-center">
+              <div>
+                <p>
+                  <b>{contact.name}</b>
+                </p>
+                <p>📞{contact.phone_number}</p>
+              </div>
+            </div>
+            {contact.notes && (
+              <p className="mt-2 text-gray-600">📔{contact.notes}</p>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
