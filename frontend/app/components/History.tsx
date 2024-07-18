@@ -1,17 +1,51 @@
 "use client";
 
+import { useState } from "react";
 import Contacts from "../interfaces/Contacts";
+import updateContacts from "../utils/updateContact";
+import formatPhoneNumber from "../utils/formatPhoneNumber";
+
 
 interface HistoryProps {
   contacts: Contacts[];
   onDelete: (id: number) => void;
+  onUpdate: () => void; 
 }
 
-const History = ({ contacts, onDelete }: HistoryProps) => {
+const History = ({ contacts, onDelete, onUpdate }: HistoryProps) => {
+  const [editContact, setEditContact] = useState<Contacts | null>(null);
+  const [editName, setEditName] = useState<string>("");
+  const [editPhoneNumber, setEditPhoneNumber] = useState<string>("");
+  const [editNotes, setEditNotes] = useState<string>("");
+
+  const handleEdit = (contact: Contacts) => {
+    setEditContact(contact);
+    setEditName(contact.name);
+    setEditPhoneNumber(contact.phone_number);
+    setEditNotes(contact.notes || "");
+  };
+
+  const handleUpdateContact = async (contactId: number) => {
+    try {
+      const updatedContact = {
+        name: editName,
+        phone_number: formatPhoneNumber(editPhoneNumber),
+        notes: editNotes,
+      };
+
+      await updateContacts(contactId, updatedContact);
+
+      setEditContact(null);
+      onUpdate();
+    } catch (error) {
+      console.error("Failed to update contact:", error);
+    }
+  };
+
   return (
-    <div className="p-6 bg-white shadow-2xl rounded-lg w-full">
+    <div className="p-6 shadow-2xl bg-white rounded-lg w-full">
       <h2 className="text-2xl font-bold mb-4">Contact History</h2>
-      <table className="min-w-full bg-white">
+      <table className="min-w-full">
         <thead>
           <tr>
             <th className="py-2">ID</th>
@@ -25,21 +59,79 @@ const History = ({ contacts, onDelete }: HistoryProps) => {
           {contacts.map((contact) => (
             <tr
               key={contact.id}
-              className="bg-yellow-50 text-center"
+              className="text-center bg-yellow-50 "
             >
-              <td className="border px-4 py-2">{contact.id}</td>
-              <td className="border px-4 py-2 font-bold">{contact.name}</td>
-              <td className="border px-4 py-2">📞{contact.phone_number}</td>
-              <td className="border px-4 py-2">{contact.notes && (
-                <p className="mt-2 text-gray-600">📔 {contact.notes}</p>
-              )}</td>
+              <td className="border px-4 py-2"><p>#{contact.id}</p></td>
+              <td className="border px-4 py-2 font-bold">
+                {editContact?.id === contact.id ? (
+                  <input
+                    type="text"
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
+                    className="border px-2 py-1"
+                  />
+                ) : (
+                  contact.name
+                )}
+              </td>
               <td className="border px-4 py-2">
-                <button
-                  onClick={() => onDelete(contact.id)}
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                >
-                  Delete
-                </button>
+                {editContact?.id === contact.id ? (
+                  <input
+                    type="text"
+                    value={editPhoneNumber}
+                    onChange={(e) => setEditPhoneNumber(e.target.value)}
+                    className="border px-2 py-1"
+                  />
+                ) : (
+                  <p>📞{contact.phone_number}</p>
+                )}
+              </td>
+              <td className="border px-4 py-2">
+                {editContact?.id === contact.id ? (
+                  <input
+                    type="text"
+                    value={editNotes}
+                    onChange={(e) => setEditNotes(e.target.value)}
+                    className="border px-2 py-1"
+                  />
+                ) : (
+                  <>
+                  {contact.notes && <p>📔{contact.notes}</p>}
+                  </>
+                )}
+              </td>
+              <td className="border px-4 py-2">
+                {editContact?.id === contact.id ? (
+                  <>
+                    <button
+                      onClick={() => handleUpdateContact(contact.id)}
+                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-1"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setEditContact(null)}
+                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => handleEdit(contact)}
+                      className="bg-yellow-400 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-1"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => onDelete(contact.id)}
+                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

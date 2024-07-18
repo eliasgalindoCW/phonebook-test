@@ -3,7 +3,7 @@ class PhoneNumbersController < ApplicationController
   
     # GET /phone_numbers
     def index
-      @phone_numbers = PhoneNumber.all
+      @phone_numbers = PhoneNumber.order(created_at: :asc)
       render json: @phone_numbers
     end
 

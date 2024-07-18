@@ -5,6 +5,7 @@ import Dial from "./Dial";
 import createContacts from "../utils/createContact";
 import ContactPost from "../interfaces/ContactsPost";
 import Loading from "./Loading";
+import formatPhoneNumber from "../utils/formatPhoneNumber";
 
 interface FormProps {
   onAddContact: () => void;
@@ -16,15 +17,6 @@ export default function ContactForm({onAddContact}: FormProps) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const maxLength = 11;
-
-  const formatPhoneNumber = (phone: string) => {
-    const cleaned = ('' + phone).replace(/\D/g, '');
-    const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
-    if (match) {
-      return `+55(${match[1]})${match[2]}-${match[3]}`;
-    }
-    return phone;
-  };
 
   const transformRequestBody = (data: ContactPost) => {
     return {

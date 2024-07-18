@@ -31,24 +31,28 @@ export default function Home() {
   const handleDelete = async (id: number) => {
     try {
       setLoading(true);
-  
       await deleteContacts(id);
       setContacts(contacts.filter(contact => contact.id !== id));
       setLoading(false);
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
+  };
+
+  const handleUpdate = async () => {
+    await fetchContacts();
   };
 
   return (
     <>
       <section className="container mx-auto p-4">
         {loading && <Loading />}
-        <div className="flex justify-between gap-4 mb-4">
+        <div className="flex justify-center gap-4 mb-4">
           <Form onAddContact={handleAddContact} />
-          <Book contacts={contacts} onAddNote={handleAddContact} />
+          <Book contacts={contacts} />
         </div>
-        <History contacts={contacts} onDelete={handleDelete} />
+        <History contacts={contacts} onDelete={handleDelete} onUpdate={handleUpdate} />
       </section>
     </>
   );
