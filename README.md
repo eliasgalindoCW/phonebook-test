@@ -57,7 +57,7 @@ cd phonebook-application
 **Install Ruby dependencies:**
 
 ```bash
-Copiar código
+Copy
 cd backend
 bundle install
 ```
@@ -65,7 +65,7 @@ bundle install
 **Setup the database:**
 
 ```bash
-Copiar código
+Copy
 rails db:create
 rails db:migrate
 ```
@@ -73,7 +73,7 @@ rails db:migrate
 **Start the Rails server:**
 
 ```bash
-Copiar código
+Copy
 rails server
 ```
 
@@ -82,7 +82,7 @@ rails server
 **Install Node.js dependencies:**
 
 ```bash
-Copiar código
+Copy
 cd frontend
 npm install
 ```
@@ -90,7 +90,7 @@ npm install
 **Start the Next.js development server:**
 
 ```bash
-Copiar código
+Copy
 npm run dev
 ```
 
@@ -120,13 +120,13 @@ Click the "Delete" button next to a contact to remove it from the list.
 
 Navigate to the frontend directory:
 ```bash
-Copiar código
+Copy
 cd frontend
 ```
 
 Run the tests:
 ```bash
-Copiar código
+Copy
 npm run test
 ```
 
@@ -134,13 +134,13 @@ npm run test
 
 Navigate to the backend directory:
 ```bash
-Copiar código
+Copy
 cd backend
 ```
 
 Run the tests:
 ```bash
-Copiar código
+Copy
 bundle exec rspec
 ```
 
