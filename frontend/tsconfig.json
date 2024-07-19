@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/utils/endpoints.js", "app/utils/getOneRecord.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/utils/endpoints.js", "app/utils/getOneRecord.js", "__tests__/Form.test.js,", "./jest-setup.ts",],
   "exclude": ["node_modules"]
 }

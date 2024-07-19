@@ -56,14 +56,14 @@ const Phonebook = ({ contacts, onDelete, onUpdate }: PhonebookProps) => {
   };
 
   return (
-    <div className="p-6 shadow-2xl bg-yellow-50 rounded-lg w-full">
+    <div className="p-6 shadow-2xl  rounded-lg w-full">
       <h2 className="text-2xl font-bold mb-4">📒 Phonebook</h2>
       <input
         type="text"
         placeholder="Filter contacts..."
         value={filter}
         onChange={(e) => setFilter(e.target.value)}
-        className="mb-4 p-2 border bg-yellow-50 rounded w-full"
+        className="mb-4 p-2 border  rounded w-full"
       />
       <table className="min-w-full">
         <thead>
