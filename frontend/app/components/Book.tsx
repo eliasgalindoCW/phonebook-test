@@ -14,7 +14,7 @@ const Book = ({ contacts }: BookProps) => {
   const lastFiveContacts = sortedContacts.slice(0, 5);
 
   return (
-    <div className="w-1/2 px-6 py-4 bg-yellow-50 shadow-2xl rounded-lg flex flex-col">
+    <div className="w-2/3 px-6 py-4  shadow-2xl rounded-lg flex flex-col">
       <h2 className="text-2xl font-bold mb-4 text-center">Last 5 Contacts Added</h2>
       <ul className="mb-6">
         {lastFiveContacts.map((contact) => (

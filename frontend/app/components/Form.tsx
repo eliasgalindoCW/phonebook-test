@@ -11,7 +11,7 @@ interface FormProps {
   onAddContact: () => void;
 }
 
-export default function ContactForm({onAddContact}: FormProps) {
+export default function ContactForm({ onAddContact }: FormProps) {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -23,29 +23,29 @@ export default function ContactForm({onAddContact}: FormProps) {
       phone_number: {
         name: data.name,
         phone_number: formatPhoneNumber(data.phone_number),
-        notes: data.notes || ""
-      }
+        notes: data.notes || "",
+      },
     };
   };
-  
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setIsLoading(true);
     try {
-      e.preventDefault();
-      setIsLoading(true);
-      const requestBody = transformRequestBody({ name, phone_number: phoneNumber });
-      
-      const res = createContacts(requestBody as any)
-      
+      const requestBody = transformRequestBody({
+        name,
+        phone_number: phoneNumber,
+      });
+
+      await createContacts(requestBody as any);
       onAddContact();
       setName("");
       setPhoneNumber("");
-      setIsLoading(false);
-      return res;
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
-
   };
 
   const handleNumberClick = (number: string) => {
@@ -63,10 +63,10 @@ export default function ContactForm({onAddContact}: FormProps) {
 
   return (
     <>
-    {isLoading && <Loading />}
+      {isLoading && <Loading />}
       <form
         onSubmit={handleSubmit}
-        className="w-1/4 bg-yellow-50 p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
+        className="w-1/4  p-4 shadow-2xl rounded-lg flex flex-col self-center text-center"
       >
         <div className="mb-4">
           <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
