@@ -134,6 +134,22 @@ Run the tests:
 ```bash
 bundle exec rspec
 ```
+## Docker
+
+**Build and run the containers:**
+
+```bash
+docker-compose up --build
+```
+Stop the containers:
+```bash
+docker-compose down
+```
+
+Run the containers in detached mode:
+```bash
+docker-compose up -d
+```
 
 ## Contributing
 1. Fork the repository
