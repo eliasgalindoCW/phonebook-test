@@ -84,8 +84,6 @@ rails server
 ```bash
 Copiar código
 cd frontend
-yarn install
-# or
 npm install
 ```
 
@@ -93,8 +91,6 @@ npm install
 
 ```bash
 Copiar código
-yarn dev
-# or
 npm run dev
 ```
 
@@ -118,6 +114,33 @@ Click the "Edit" button next to a contact, modify the details, and click "Save" 
 
 **Delete Contact:**
 Click the "Delete" button next to a contact to remove it from the list.
+
+## Running Tests
+**Frontend Tests**
+Navigate to the frontend directory:
+```bash
+Copiar código
+cd frontend
+```
+
+Run the tests:
+```bash
+Copiar código
+npm run test
+```
+
+**Backend Tests**
+Navigate to the backend directory:
+```bash
+Copiar código
+cd backend
+```
+
+Run the tests:
+```bash
+Copiar código
+bundle exec rspec
+```
 
 ## Contributing
 1. Fork the repository
